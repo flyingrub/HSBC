@@ -1,6 +1,6 @@
 package banque.compte.remunere;
 
-import banque.client.Client;
+import banque.Client;
 import banque.compte.Compte;
 
 /**
@@ -14,6 +14,10 @@ abstract public class CompteRemunere extends Compte {
         super(libelle, titulaire);
         this.tauxRemuneration = tauxRemuneration;
         this.soldePlafond = soldePlafond;
+    }
+
+    public int getSoldePlafond() {
+        return soldePlafond;
     }
 
     @Override

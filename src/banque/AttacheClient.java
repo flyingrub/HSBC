@@ -1,6 +1,4 @@
-package banque.attacheclientele;
-
-import banque.client.Client;
+package banque;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,10 +7,9 @@ import java.util.Arrays;
  * Created by Ronan Timinello.
  */
 public class AttacheClient {
-    private ArrayList<Client> clients;
+    private ArrayList<Client> clients = new ArrayList<>();
 
-    public AttacheClient(ArrayList<Client> clients) {
-        this.clients = clients;
+    public AttacheClient() {
     }
 
     public void ajouterClient(Client... clients){

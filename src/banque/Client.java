@@ -1,6 +1,6 @@
-package banque.client;
+package banque;
 
-import banque.attacheclientele.AttacheClient;
+import banque.AttacheClient;
 import banque.compte.Compte;
 
 import java.util.ArrayList;
@@ -12,14 +12,13 @@ import java.util.Arrays;
 public class Client {
     private int numeroId;
     private String nom;
-    private ArrayList<Compte> comptes;
+    private ArrayList<Compte> comptes = new ArrayList<>();
     private AttacheClient attacheClient;
     private static int currentNumeroId;
 
-    public Client(String nom, ArrayList<Compte> comptes, AttacheClient attacheClient) {
+    public Client(String nom, AttacheClient attacheClient) {
         this.numeroId = ++currentNumeroId;
         this.nom = nom;
-        this.comptes = comptes;
         this.attacheClient = attacheClient;
         attacheClient.ajouterClient(this);
     }
@@ -43,10 +42,6 @@ public class Client {
 
     public String getNom() {
         return nom;
-    }
-
-    public boolean hasAttacheClient(){
-        return attacheClient != null;
     }
 
     @Override

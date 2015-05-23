@@ -1,6 +1,6 @@
 package banque.compte.remunere;
 
-import banque.client.Client;
+import banque.Client;
 
 import java.util.Date;
 

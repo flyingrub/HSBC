@@ -1,6 +1,9 @@
 package banque.compte;
 
-import banque.client.Client;
+import banque.Client;
+import banque.Operation;
+
+import java.util.ArrayList;
 
 /**
  * Created by Ronan Timinello.
@@ -11,6 +14,7 @@ abstract public class Compte {
     private Client titulaire;
     private int solde;
     private static int currentNumeroId;
+    private ArrayList<Operation> operations = new ArrayList<>();
 
     public Compte(String libelle, Client titulaire) {
         this.numeroId = ++currentNumeroId;
@@ -27,8 +31,20 @@ abstract public class Compte {
         this.solde += credit;
     }
 
+    public void ajoutOperation(Operation operation){
+        this.operations.add(operation);
+    }
+
     public int getSolde(){
         return this.solde;
+    }
+
+    public Client getTitulaire() {
+        return titulaire;
+    }
+
+    public ArrayList<Operation> getOperations() {
+        return operations;
     }
 
     public int getNumeroId() {
