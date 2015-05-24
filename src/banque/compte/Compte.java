@@ -1,7 +1,10 @@
 package banque.compte;
 
 import banque.Client;
+import banque.enumP.Nature;
 import banque.Operation;
+import banque.enumP.Status;
+import banque.exception.OperationBancaireException;
 
 import java.util.ArrayList;
 
@@ -23,12 +26,44 @@ abstract public class Compte {
         titulaire.ajouterCompte(this);
     }
 
-    public void debit(int debit){
-        this.solde -= debit;
+    public void debiter(int montant) throws OperationBancaireException {
+        if (montant <= 0){
+            this.ajoutOperation(new Operation(Nature.DEBIT, Status.KO, this, this.getTitulaire(), montant));
+            throw new OperationBancaireException(this.libelle + " Montant invalide");
+        }
+        if (this.getSolde() - montant < 0){
+            this.ajoutOperation(new Operation(Nature.DEBIT, Status.KO, this, this.getTitulaire(), montant));
+            throw new OperationBancaireException(this.libelle + " Solde insufisant");
+        }
+        this.ajoutOperation(new Operation(Nature.DEBIT, Status.OK, this, this.getTitulaire(), montant));
+        this.solde -= montant;
     }
 
-    public void credit(int credit){
-        this.solde += credit;
+    public void crediter(int montant) throws OperationBancaireException {
+        if (montant <= 0){
+            this.ajoutOperation(new Operation(Nature.CREDIT, Status.KO, this, this.getTitulaire(), montant));
+            throw new OperationBancaireException(this.libelle + " Montant invalide");
+        }
+        this.ajoutOperation(new Operation(Nature.CREDIT, Status.OK, this, this.getTitulaire(), montant));
+        this.solde += montant;
+    }
+
+    public void debiter(int montant, String libelle) throws OperationBancaireException {
+        try {
+            this.debiter(montant);
+            this.operations.get(this.operations.size() -1).setLibelle(libelle);
+        } catch (OperationBancaireException e) {
+            throw e;
+        }
+    }
+
+    public void crediter(int montant, String libelle) throws OperationBancaireException {
+        try {
+            this.crediter(montant);
+            this.operations.get(this.operations.size() -1).setLibelle(libelle);
+        } catch (OperationBancaireException e) {
+            throw e;
+        }
     }
 
     public void ajoutOperation(Operation operation){

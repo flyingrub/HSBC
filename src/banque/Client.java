@@ -2,6 +2,8 @@ package banque;
 
 import banque.AttacheClient;
 import banque.compte.Compte;
+import banque.exception.OperationBancaireException;
+import banque.exception.OrdreVirementException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +35,21 @@ public class Client {
                 this.comptes.remove(compte);
                 return;
             }
+        }
+    }
+
+    public void ordreVirement(Compte compteOrigine, Compte compteDestinataire, int montant) throws OrdreVirementException, OperationBancaireException {
+        if (compteOrigine.getTitulaire().getNumeroId() != this.getNumeroId() || compteDestinataire.getTitulaire().getNumeroId() !=  this.getNumeroId()) {
+            throw new OrdreVirementException("Titulaire invalide sur un ou plusieurs comptes");
+        }
+        if (compteOrigine.getSolde() - montant < 0){
+            throw new OrdreVirementException("Solde insuffisant sur le compte origine");
+        }
+        try {
+            compteOrigine.debiter(montant);
+            compteDestinataire.crediter(montant);
+        } catch (OperationBancaireException e) {
+            throw e;
         }
     }
 

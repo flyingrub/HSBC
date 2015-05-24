@@ -3,6 +3,8 @@ package banque;
 import banque.compte.Compte;
 import banque.compte.CompteCourrant;
 import banque.compte.remunere.CompteEpargne;
+import banque.exception.OperationBancaireException;
+import banque.exception.OrdreVirementException;
 
 /**
  * Created by Ronan Timinello.
@@ -29,15 +31,19 @@ public class Banque {
         System.out.println("Voici nos Comptes:\n"+ compteCourrant + "\n" + compteEpargne + "\n" );
 
         try {
-            Operation operation1 = new Operation(Nature.CREDIT, compteCourrant, C, 2000);
-            Operation operation2 = new Operation(Nature.CREDIT, compteEpargne, C, 33);
-            Operation operation3 = new Operation(Nature.DEBIT, compteCourrant, C, 500);
-            System.out.println("Voici nos Operations:\n"+ operation1 + "\n" + operation2 + "\n" + operation3 + "\n");
-            Operation operation4 = new Operation(Nature.DEBIT, compteCourrant, C, 2500);
-        } catch (Operation.OperationBancaireException e) {
-
+            compteCourrant.crediter(2000);
+            compteEpargne.crediter(30);
+            compteCourrant.debiter(500);
+            compteCourrant.debiter(2500);
+        } catch (OperationBancaireException e) {
+            System.out.println(e);
         }
-        System.out.println("\nVoici les operations de Compte Courrant:\n"+ compteCourrant.getOperations() );
-
+        System.out.println("\nVoici les operations de Compte Courrant:\n"+ compteCourrant.getOperations());
+        System.out.println("\nVoici les operations de Compte Epargne:\n"+ compteEpargne.getOperations());
+        try {
+            C.ordreVirement(compteCourrant, compteEpargne, 10);
+        } catch (OrdreVirementException e) {
+            System.out.println(e);
+        }
     }
 }

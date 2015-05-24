@@ -1,7 +1,11 @@
 package banque.compte.remunere;
 
 import banque.Client;
+import banque.enumP.Nature;
+import banque.Operation;
+import banque.enumP.Status;
 import banque.compte.Compte;
+import banque.exception.OperationBancaireException;
 
 /**
  * Created by Ronan Timinello.
@@ -18,6 +22,15 @@ abstract public class CompteRemunere extends Compte {
 
     public int getSoldePlafond() {
         return soldePlafond;
+    }
+
+    @Override
+    public void crediter(int montant) throws OperationBancaireException {
+        if (this.getSolde() + montant > soldePlafond){
+            this.ajoutOperation(new Operation(Nature.CREDIT, Status.KO, this, this.getTitulaire(), montant));
+            throw new OperationBancaireException(this.getLibelle() + " Plafond insuffisant");
+        }
+        super.crediter(montant);
     }
 
     @Override

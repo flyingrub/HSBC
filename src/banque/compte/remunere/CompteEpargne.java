@@ -1,6 +1,7 @@
 package banque.compte.remunere;
 
 import banque.Client;
+import banque.exception.OperationBancaireException;
 
 /**
  * Created by Ronan Timinello.
