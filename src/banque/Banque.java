@@ -15,6 +15,7 @@ public class Banque {
 
     /**
      * Permet de rendre le projet executable
+     * @param args les parametres passer a l'executable.
      */
     public static void main(String[] args) {
         System.out.println("Bienvenue dans notre Banque!\n");
