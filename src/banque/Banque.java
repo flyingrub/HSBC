@@ -3,6 +3,8 @@ package banque;
 import banque.compte.Compte;
 import banque.compte.CompteCourrant;
 import banque.compte.remunere.CompteEpargne;
+import banque.enumP.Nature;
+import banque.enumP.Status;
 import banque.exception.OperationBancaireException;
 import banque.exception.OrdreVirementException;
 
@@ -41,9 +43,20 @@ public class Banque {
         System.out.println("\nVoici les operations de Compte Courrant:\n"+ compteCourrant.getOperations());
         System.out.println("\nVoici les operations de Compte Epargne:\n"+ compteEpargne.getOperations());
         try {
-            C.ordreVirement(compteCourrant, compteEpargne, 10);
+            compteCourrant.debiter(new Operation(Nature.DEBIT, Status.ATTENTE, compteCourrant, compteCourrant.getTitulaire(), 123));
+            compteCourrant.crediter(new Operation(Nature.CREDIT, Status.ATTENTE, compteCourrant, compteCourrant.getTitulaire(), 1.55f));
+            C.ordreVirement(compteCourrant, compteEpargne, 666);
+            C.ordreVirement(compteCourrant, compteEpargne, 10000);
         } catch (OrdreVirementException e) {
             System.out.println(e);
         }
+        try {
+            C.ordreVirement(compteCourrant, compteEpargne, 10);
+        } catch (OrdreVirementException e) {
+            e.printStackTrace();
+        }
+        System.out.println("\nVoici les operations de Compte Courrant:\n"+ compteCourrant.getOperations());
+        System.out.println("\nVoici les operations de Compte Epargne:\n"+ compteEpargne.getOperations());
+        System.out.println("\nVoici les operations en attente de l'attaché:\n"+ attacheClient1.getOperationsEnAttente());
     }
 }
